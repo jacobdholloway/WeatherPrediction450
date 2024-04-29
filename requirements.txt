@@ -1,10 +1,17 @@
-numpy
-pandas
-matplotlib
-seaborn
-scikit-learn
-tensorflow
-keras
-statsmodels
-requests
-jupyter
+numpy #  Fundamental package for scientific computing with Python; used for working with arrays, linear algebra, fourier transform, and matrices.
+pandas # Provides data structures and data analysis tools; ideal for working with structured data, especially for data manipulation and analysis.
+matplotlib # 2D plotting library which produces publication quality figures in a variety of formats and interactive environments across platforms.
+seaborn # Data visualization library based on matplotlib; provides a high-level interface for drawing attractive and informative statistical graphics.
+scikit-learn # Simple and efficient tools for data mining and data analysis built on NumPy, SciPy, and matplotlib.
+tensorflow # Open source machine learning framework; useful for building and training machine learning models.
+keras # High-level neural networks API, written in Python and capable of running on top of TensorFlow, CNTK, or Theano.
+statsmodels # Provides classes and functions for the estimation of many different statistical models, as well as for conducting statistical tests.
+requests # HTTP library for making requests and working with APIs.
+jupyter # Provides a web-based interactive computing platform; useful for data cleaning and transformation.
+netCDF4 # Provides an object-oriented python interface to the netCDF version 4 library.
+xarray # N-D labeled arrays and datasets in Python; useful for working with multi-dimensional arrays.
+torchvision # Package consists of popular datasets, model architectures, and common image transformations for computer vision.
+pygrib # Python module for reading and writing GRIB (editions 1 and 2) files.
+tempest # Python package for working with unstructured grids.
+dask # Provides advanced parallelism for analytics, enabling performance at scale.
+distutils # Provides support for building and installing additional modules into Python.
