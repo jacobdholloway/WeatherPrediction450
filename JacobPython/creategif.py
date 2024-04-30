@@ -22,3 +22,4 @@ def create_gif_pillow(input_folder, output_file, duration=500):
 
 # Usage
 create_gif_pillow('output', 'output_animation.gif', duration=500)
+create_gif_pillow('outputError','outputError_animation.gif',duration=500)

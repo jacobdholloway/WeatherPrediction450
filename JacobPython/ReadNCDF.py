@@ -1,3 +1,4 @@
+from matplotlib.colors import LinearSegmentedColormap
 import xarray as xr
 import numpy as np
 import pandas as pd
@@ -11,9 +12,12 @@ output_dir = 'output'
 if not os.path.exists(output_dir):
     os.makedirs(output_dir)
 
+error_output_dir = 'outputError'
+if not os.path.exists(error_output_dir):
+    os.makedirs(error_output_dir)
 
 # Load your dataset
-ds = xr.open_dataset('forecast_dlwp-cs_tutorial.nc.cs')
+ds = xr.open_dataset('/home/blaise/Dev/MLWeather/Data/forecast_dlwp-cs_tutorial.nc.cs')
 
 # Select specific slices for visualization
 # For example, select the first time point, first forecast hour, first face, and first variable level
@@ -69,6 +73,39 @@ def plot_movie(m, lat, lon, val, pred, dates, model_title='', plot_kwargs=None, 
             plt.savefig('%s/%05d.png' % (out_directory, d), bbox_inches='tight', dpi=150)
         fig.clear()
 
+def plot_error_heatmap(m, lat, lon, val, pred, dates, model_title='', plot_kwargs=None, out_directory=None):
+    if (len(dates) != val.shape[0]) and (len(dates) != pred.shape[0]):
+        raise ValueError("'val' and 'pred' must have the same first (time) dimension as 'dates'")
+    
+    colors = ["green", "yellow", "red"]
+    cmap = LinearSegmentedColormap.from_list("custom_cmap", colors, N=256)
+    plot_kwargs = plot_kwargs or {}
+    plot_kwargs.setdefault('cmap', cmap)  # Set the colormap to the custom one if not specified
+
+    fig = plt.figure()
+    fig.set_size_inches(6, 4)
+    x, y = m(lon, lat)
+    dt = dates[1] - dates[0]
+    
+    for d, date in enumerate(dates):
+        error = abs((pred[d] - val[d]))
+        
+
+        hours = (d + 1) * dt.total_seconds() / 60 / 60
+        
+        ax = plt.subplot(111)
+        c = m.pcolormesh(x, y, error, **plot_kwargs)
+        m.drawcoastlines()
+        m.drawparallels(np.arange(0., 91., 45.))
+        m.drawmeridians(np.arange(0., 361., 90.))
+        ax.set_title('Error Heatmap at $t=%d$ hours (%s)' % (hours, date))
+        plt.colorbar(c, ax=ax, label='Prediction Error')
+        
+        if out_directory:
+            plt.savefig('%s/%05d.png' % (out_directory, d), bbox_inches='tight', dpi=150)
+        fig.clear()
+
+    plt.close(fig)
 # Sample usage of the plot_movie function
 lat = np.linspace(-90, 90, 50)  # Adjust as per your data
 lon = np.linspace(-180, 180, 50)  # Adjust as per your data
@@ -80,5 +117,6 @@ dates = pd.date_range(start='2020-01-01', periods=10, freq='D')
 m = Basemap(projection='cyl', llcrnrlat=-90, urcrnrlat=90, llcrnrlon=-180, urcrnrlon=180)
 
 # Call the function
-plot_movie(m, lat, lon, val, pred, dates, model_title='Neural Net Prediction', out_directory='output')
+plot_movie(m, lat, lon, val, pred, dates, model_title='Neural Net Prediction', out_directory=output_dir)
+plot_error_heatmap(m,lat,lon,val,pred,dates,model_title='Error Over Time',out_directory=error_output_dir)
 
