@@ -49,7 +49,7 @@ Again the GPU-ready version is recommended.
 - pyspharm: spherical harmonics transforms for the barotropic model  
   `conda install -c conda-forge pyspharm`
 
-## Quick overview
+## Quick overview ( Added by Jacob for readme)
 
 ### General framework
 
