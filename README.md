@@ -174,3 +174,20 @@ Some parameters:
 - `patience`: if the validation loss does not go down for this number of epochs, end training  
 - `batch_size`: for mini-batches for SGD training  
 - `shuffle`: if True, shuffles the training data samples
+
+Now let's train the model. First, define a few callbacks:
+
+- `history`: save the model metrics as it trains 
+- `early`: a custom callback used to stop training after `patience` epochs, but only after a minimum number of epochs  
+- `tensorboard`: TensorFlow's complete logging  
+- `GeneratorEpochEnd`: when using `tf_data_generator`, this is used to shuffle the samples
+
+This information was referenced on notebook three
+
+## Predicting with a DLWP-CS model
+
+Finally we will explore using the advanced functionality in DLWP-CS to make a time-series global weather prediction with our trained DLWP-CS model. We will save the prediction to a netCDF file and apply inverse scaling to get physical variables back. Again, I recommend having this model run on a GPU with at least 4 GB of video memory.
+
+## Once the model has been trained and saved
+
+Inside the JacobPython folder are custom python code I made to test the data and validate that what I downloaded also works. Inside of ReadNCDF is a plot movie function that will utilize the prediction to output into multiple png files that go into a folder to be modified. Lastly, the create gif will take the output png files and combine them into a gif that can then be shared.
